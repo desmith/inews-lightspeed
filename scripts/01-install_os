@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail      # exit if there are any errors
+export PATH=/usr/local/bin:$PATH
+
+echo "********************* 01-install_os *********************"
+dnf update -y
+dnf config-manager --set-enabled crb
+dnf install -y epel-release
+dnf --enablerepo=crb install -y libmemcached-awesome
+dnf --enablerepo=crb install -y libmemcached-awesome-tools
+
+dnf install -y \
+    awscli \
+    certbot \
+    fish \
+    git \
+    htop \
+    nfs-utils \
+    python3-pip \
+    wget \
+    zip
+
+wget -O - https://repo.litespeed.sh | sudo bash
+dnf install -y openlitespeed

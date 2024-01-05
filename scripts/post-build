@@ -1,0 +1,16 @@
+#!/usr/bin/env bash
+
+AMI_KEY='/inews/infra/litespeed/ami_id'
+OLD_AMI_ID=$(aws ssm get-parameter --name "${AMI_KEY}" --query "Parameter.Value" --output text)
+
+aws ec2 delete-tags --resources "${OLD_AMI_ID}" --tags Key=ami-cleanup
+
+NEW_AMI_ID=$(cat ami.txt)
+
+aws ssm put-parameter \
+        --name "${AMI_KEY}" \
+        --value "${NEW_AMI_ID}" \
+        --type String \
+        --overwrite
+
+aws ec2 create-tags --resources "${NEW_AMI_ID}" --tags Key=ami-cleanup,Value=False

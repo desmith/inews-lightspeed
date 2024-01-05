@@ -1,0 +1,23 @@
+#!/usr/bin/env bash
+
+set -e -o pipefail      # exit if there are any errors
+export PATH=/usr/local/bin:$PATH
+
+echo "********************* 04-install-awscli *********************"
+
+ROOT_AWS_HOME=/root/.aws
+EC2_AWS_HOME=/home/ec2-user/.aws
+mkdir -r $ROOT_AWS_HOME $EC2_AWS_HOME
+cp /tmp/aws_config $EC2_AWS_HOME/config
+cp /tmp/aws_credentials $EC2_AWS_HOME/credentials
+mv /tmp/aws_config $ROOT_AWS_HOME/config
+mv /tmp/aws_credentials $ROOT_AWS_HOME/credentials
+chmod 0600 $ROOT_AWS_HOME/config $ROOT_AWS_HOME/credentials
+chmod 0600 $EC2_AWS_HOME/config $EC2_AWS_HOME/credentials
+chown -R ec2-user:ec2-user $EC2_AWS_HOME
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install
+rm -rf aws awscliv2.zip
+/usr/local/bin/aws --version
