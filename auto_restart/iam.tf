@@ -51,8 +51,7 @@ data "aws_iam_policy_document" "lambda_policy_doc" {
     sid     = "StartStopEC2Instances"
     effect  = "Allow"
     actions = [
-      "ec2:Start*",
-      "ec2:Stop*",
+      "ec2:RebootInstances",
       "ec2:DescribeInstances"
     ]
     resources = [

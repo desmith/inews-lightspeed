@@ -6,4 +6,4 @@ env              = "prod"
 schedule         = "rate(6 hours)" # every 4 hours
 email_recipients = "devaprastha@iskcon.org"
 lambda_runtime   = "python3.12"
-lambda_handler   = "restart_instance.py.lambda_handler"
+lambda_handler   = "restart_instance.main"

@@ -30,7 +30,7 @@ for instance in response['Reservations']:
                 instance_names.append(_name)
 
 
-def lambda_handler(event, context):  # pylint: disable=unused-argument
+def main(event, context):  # pylint: disable=unused-argument
     ret = ec2.reboot_instances(InstanceIds=instances)
     if ret['ResponseMetadata']['HTTPStatusCode'] == 200:
         print(f'Restarted instances: {instance_names} ({instances})')
@@ -49,4 +49,4 @@ def lambda_handler(event, context):  # pylint: disable=unused-argument
 
 
 if __name__ == '__main__':
-    lambda_handler({}, {})
+    main({}, {})
