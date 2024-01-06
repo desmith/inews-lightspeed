@@ -6,4 +6,3 @@ export PATH=/usr/local/bin:$PATH
 echo "********************* 06-install-extras *********************"
 
 curl -sfL https://direnv.net/install.sh | bash
-

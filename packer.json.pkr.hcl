@@ -101,7 +101,7 @@ source "amazon-ebs" "packer-ebs" {
     ssh_agent_auth              = false
     subnet_id                   = var.subnet_id
 
-    # imds_support = v2.0
+    # IMDSv2_support
     metadata_options {
         http_endpoint               = "enabled"
         http_put_response_hop_limit = "1"
@@ -113,7 +113,8 @@ source "amazon-ebs" "packer-ebs" {
         Name         = var.name
         app          = "inews"
         env          = var.env
-        ami-cleanup  = "False"
+        ec2-cleanup  = "False"
+        created_by   = "packer"
     }
     vpc_id = var.vpc_id
 }
@@ -167,7 +168,8 @@ build {
     }
 
     provisioner "shell" {
-        script = "./scripts/06-install-extras"
+        execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
+        script          = "./scripts/06-install-extras"
     }
 
 

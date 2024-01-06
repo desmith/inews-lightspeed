@@ -18,20 +18,20 @@ lint:  ## Lint python
 	pipenv run pylint src/*.py src/lib/*.py
 
 plan:  ## Create terraform plan
-	terraform validate
+	@terraform validate
 	terraform plan -out=tfplan -var-file=vars/$(AWS_ACCOUNT).tfvars
-	terraform show -no-color tfplan > tfplan.txt
+	@terraform show -no-color tfplan > tfplan.txt
 
 apply: plan
-	terraform show -no-color tfplan > tfplan.txt
+	@terraform show -no-color tfplan > tfplan.txt
 	terraform apply tfplan
-	terraform output
+	@terraform output
 
 destroy:
-	terraform destroy -var-file=vars/$(AWS_ACCOUNT).tfvars --auto-approve
+	@terraform destroy -var-file=vars/$(AWS_ACCOUNT).tfvars --auto-approve
 
 clean:
-	rm -rf tfplan tfplan.txt terraform.tfstate* .terraform layer/python
+	rm -rf tfplan tfplan.txt terraform.tfstate* .terraform layer/python *.zip
 
 test:
 	@echo "No tests yet"

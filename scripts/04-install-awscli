@@ -7,7 +7,7 @@ echo "********************* 04-install-awscli *********************"
 
 ROOT_AWS_HOME=/root/.aws
 EC2_AWS_HOME=/home/ec2-user/.aws
-mkdir -r $ROOT_AWS_HOME $EC2_AWS_HOME
+mkdir -p $ROOT_AWS_HOME $EC2_AWS_HOME
 cp /tmp/aws_config $EC2_AWS_HOME/config
 cp /tmp/aws_credentials $EC2_AWS_HOME/credentials
 mv /tmp/aws_config $ROOT_AWS_HOME/config

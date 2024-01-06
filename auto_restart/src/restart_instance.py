@@ -1,7 +1,14 @@
+#!/usr/bin/env python
+import os
+
 import boto3
 
+from lib import setup_logger
+
+logger = setup_logger(__name__)
+
 region = 'us-east-1'
-topic_arn = 'arn:aws:sns:us-east-1:793753096261:my-topic'
+TOPIC_ARN = os.getenv('TOPIC_ARN')
 
 ec2 = boto3.client('ec2', region_name=region)
 sns = boto3.client('sns', region_name=region)
@@ -12,17 +19,34 @@ _filter = [
 
 response = ec2.describe_instances(Filters=_filter)
 instances = []
+instance_names = []
 
 for instance in response['Reservations']:
     for i in instance['Instances']:
         instances.append(i['InstanceId'])
+        for tag in i['Tags']:
+            if 'Name' in tag['Key']:
+                _name = tag['Value']
+                instance_names.append(_name)
 
 
 def lambda_handler(event, context):  # pylint: disable=unused-argument
     ret = ec2.reboot_instances(InstanceIds=instances)
-    print(f'stopped your instances: {instances}')
-    print(f'{ret=}')
+    if ret['ResponseMetadata']['HTTPStatusCode'] == 200:
+        print(f'Restarted instances: {instance_names} ({instances})')
+        str_msg = f'Instances {instance_names} ({instances}) restarted'
+    else:
+        print(f'Error stopping instances: {instance_names} ({instances})')
+        print(f'HTTPStatusCode: {ret["ResponseMetadata"]["HTTPStatusCode"]}')
+        str_msg = f'Instances {instance_names} ({instances}) NOT restarted'
+        str_msg += f'\nHTTPStatusCode: {ret["ResponseMetadata"]["HTTPStatusCode"]}'
 
-    str_msg = f'Instances {instances} restarted'
-    msg_response = sns.publish(TopicArn=topic_arn, Message=str_msg)
-    print(f'Message published: {msg_response}')
+    if TOPIC_ARN:
+        msg_response = sns.publish(TopicArn=TOPIC_ARN, Message=str_msg)
+        print(f'Message published: {msg_response}')
+    else:
+        logger.error('TOPIC_ARN not defined')
+
+
+if __name__ == '__main__':
+    lambda_handler({}, {})

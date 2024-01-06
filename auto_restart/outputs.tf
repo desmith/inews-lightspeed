@@ -5,3 +5,7 @@ output "lambda_arn" {
 output "trigger_schedule" {
   value = aws_cloudwatch_event_rule.schedule.schedule_expression
 }
+
+output "topic_arn" {
+  value = aws_sns_topic.auto_restart.arn
+}
