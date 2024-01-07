@@ -34,7 +34,7 @@ def main(event, context):  # pylint: disable=unused-argument
     ret = ec2.reboot_instances(InstanceIds=instances)
     if ret['ResponseMetadata']['HTTPStatusCode'] == 200:
         print(f'Restarted instances: {instance_names} ({instances})')
-        str_msg = f'Instances {instance_names} ({instances}) restarted'
+        str_msg = f'Instances {instance_names} ({instances}) restarted by EventBus via Lambda'
     else:
         print(f'Error stopping instances: {instance_names} ({instances})')
         print(f'HTTPStatusCode: {ret["ResponseMetadata"]["HTTPStatusCode"]}')

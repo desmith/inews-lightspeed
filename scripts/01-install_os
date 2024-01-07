@@ -12,14 +12,25 @@ dnf --enablerepo=crb install -y libmemcached-awesome-tools
 
 dnf install -y \
     awscli \
+    bc \
     certbot \
     fish \
     git \
     htop \
     nfs-utils \
+    mlocate \
     python3-pip \
     wget \
     zip
 
+updatedb
 wget -O - https://repo.litespeed.sh | sudo bash
 dnf install -y openlitespeed
+
+mkdir -p /root/bin /var/log/perf
+mv /tmp/perflog /tmp/monitor /root/bin
+chmod 0711 /root/bin/perflog /root/bin/monitor  # rwx--x--x
+
+mv /tmp/crontab.src /root
+chmod 0600 /root/crontab.src  # rw-------
+crontab /root/crontab.src

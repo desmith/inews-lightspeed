@@ -17,4 +17,11 @@ EOF
 mount -a
 ln -s /mnt/efs/www /var/www
 
+rm -rf /usr/local/lsws/conf
+ln -s /mnt/efs/lsws/conf /usr/local/lsws/conf
+mv /usr/local/lsws/lsphp74/bin/lsphp /usr/local/lsws/lsphp74/bin/lsphp74
+mv /usr/local/lsws/lsphp82/bin/lsphp /usr/local/lsws/lsphp74/bin/lsphp82
+
+
+
 systemctl daemon-reload

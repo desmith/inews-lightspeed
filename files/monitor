@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+
+# This script is used to monitor the server load and restart the server if the load is high.
+
+LOGFILE=/var/log/perf/load_kill_log
+PSFILE=/var/log/perf/ps_log
+
+# Obtain the server load
+loadavg=$(uptime |cut -d , -f 4|cut -d : -f 2)
+thisloadavg=$(echo $loadavg|awk -F \. '{print $1}')
+
+if [ "$thisloadavg" -ge "10" ]; then
+ps auxfww >> $PSFILE
+date >> $LOGFILE
+
+sns_msg="Server restarted via '/root/bin/monitor' due to high load: $loadavg ($thisloadavg)"
+sns_topic_arn="arn:aws:sns:us-east-1:793753096261:ec2-auto-restart-topic"
+/usr/local/bin/aws sns publish --message "$sns_msg" --topic-arn $sns_topic_arn
+reboot
+
+fi

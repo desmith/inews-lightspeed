@@ -5,9 +5,14 @@
 
 TODO:
 
-1) Lose additional EBS volume
+- Update packer configs to match current instance (lsphp, root/bin, etc)
 
-2) load dotfiles from (git|s3) ?
+1) load dotfiles from (git|s3) ?
+3) Watchdog (watchdog) ?
+4) Munin (munin-node) ?
+5) Monit (monit) ?
+6) date >> /var/log/cpu_hogs && ps -eo pcpu,pid,user,args | sort -r -k1 | head -5 >> /var/log/cpu_hogs
+7) date >> /var/log/mem_hogs && ps -eo pmem,pid,user,args | sort -r -k1 | head -5 >> /var/log/mem_hogs
 
 ```bash
 rsync -av /home/ec2-user/.local/share/omf/ .local/share/omf/

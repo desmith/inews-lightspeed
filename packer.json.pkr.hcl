@@ -125,6 +125,19 @@ source "amazon-ebs" "packer-ebs" {
 build {
     sources = ["source.amazon-ebs.packer-ebs"]
 
+    provisioner "file" {
+        source      = "./files/perflog"
+        destination = "/tmp/perflog"
+    }
+    provisioner "file" {
+        source      = "./files/monitor"
+        destination = "/tmp/monitor"
+    }
+    provisioner "file" {
+        source      = "./files/crontab.src"
+        destination = "/tmp/crontab.src"
+    }
+
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
         script          = "./scripts/01-install_os"
