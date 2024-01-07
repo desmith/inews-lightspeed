@@ -28,7 +28,7 @@ data "aws_iam_policy_document" "lambda_policy_doc" {
       "sns:Publish"
     ]
     resources = [
-      aws_sns_topic.auto_restart.arn
+      data.aws_sns_topic.auto_restart.arn
     ]
   }
 

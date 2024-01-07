@@ -5,3 +5,6 @@
 /auto_restart/tfplan.txt
 /auto_restart/.terraform/
 /auto_restart/*.zip
+/sns_topic/tfplan
+/sns_topic/tfplan.txt
+/sns_topic/.terraform/

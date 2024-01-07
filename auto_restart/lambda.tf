@@ -86,7 +86,7 @@ resource "aws_lambda_function" "lambda" {
 
     environment {
     variables = {
-      TOPIC_ARN = aws_sns_topic.auto_restart.arn
+      TOPIC_ARN = data.aws_sns_topic.auto_restart.arn
     }
   }
 

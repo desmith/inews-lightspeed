@@ -1,7 +1,6 @@
 variable "name" { type = string }
 variable "app" { type = string }
 variable "component" { type = string }
-variable "email_recipients" { type = string }
 
 variable "env" {
   type    = string

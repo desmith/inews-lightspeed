@@ -10,6 +10,7 @@ MAILTO=root
 # |  |  |  |  |
 # *  *  *  *  * user-name  command to be executed
 */15 * * * * wget -q http://iskconnews.org/wp-cron.php -O /dev/null
-*/2 * * * * /root/bin/perflog
-*/2 * * * * /root/bin/monitor
+*/1 * * * * /root/bin/perflog
+*/1 * * * * /root/bin/monitor
+#*12 * * * * /usr/local/lsws/lsphp82/bin/lsphp82 /root/bin/monitor.php
 #*/10 * * * * systemctl restart lsws

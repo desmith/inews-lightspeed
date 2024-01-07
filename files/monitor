@@ -2,20 +2,33 @@
 
 # This script is used to monitor the server load and restart the server if the load is high.
 
-LOGFILE=/var/log/perf/load_kill_log
-PSFILE=/var/log/perf/ps_log
+LOGFILE="/var/log/perf/load_kill_log"
 
 # Obtain the server load
-loadavg=$(uptime |cut -d , -f 4|cut -d : -f 2)
-thisloadavg=$(echo $loadavg|awk -F \. '{print $1}')
+load_history=$(cat /proc/loadavg | awk -F" " '{print $1 " "  $2 " " $3}')
 
-if [ "$thisloadavg" -ge "10" ]; then
-ps auxfww >> $PSFILE
-date >> $LOGFILE
+load_float=$(echo $load_history|awk -F " " '{print $1}')
+load_base=$(echo $load_history|awk -F \. '{print $1}')
 
-sns_msg="Server restarted via '/root/bin/monitor' due to high load: $loadavg ($thisloadavg)"
-sns_topic_arn="arn:aws:sns:us-east-1:793753096261:ec2-auto-restart-topic"
-/usr/local/bin/aws sns publish --message "$sns_msg" --topic-arn $sns_topic_arn
-reboot
+{
+    date
+    echo "\$load_history: $load_history"
+    echo "\$load_float: $load_float"
+    echo "\$load_base: $load_base"
+    echo ""
+} >>$LOGFILE
 
+if [ "$load_base" -ge "4" ]; then
+    {
+        echo "**************************************************"
+        date
+        ps auxfww
+        echo "**************************************************"
+        echo ""
+    } >>$LOGFILE
+
+    sns_msg="Server restarted via '/root/bin/monitor' due to high load: $load_float ($load_history)"
+    sns_topic_arn="arn:aws:sns:us-east-1:793753096261:ec2-auto-restart-topic"
+    aws sns publish --message "$sns_msg" --topic-arn $sns_topic_arn
+    reboot
 fi

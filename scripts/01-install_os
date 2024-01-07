@@ -17,15 +17,15 @@ dnf install -y \
     fish \
     git \
     htop \
+    httpd-tools \
     nfs-utils \
     mlocate \
     python3-pip \
+    stress \
     wget \
     zip
 
 updatedb
-wget -O - https://repo.litespeed.sh | sudo bash
-dnf install -y openlitespeed
 
 mkdir -p /root/bin /var/log/perf
 mv /tmp/perflog /tmp/monitor /root/bin

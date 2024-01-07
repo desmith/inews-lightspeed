@@ -7,5 +7,5 @@ output "trigger_schedule" {
 }
 
 output "topic_arn" {
-  value = aws_sns_topic.auto_restart.arn
+  value = data.aws_sns_topic.auto_restart.arn
 }
