@@ -3,7 +3,7 @@
 set -e -o pipefail      # exit if there are any errors
 export PATH=/usr/local/bin:$PATH
 
-echo "********************* 07-install-extras *********************"
+echo "********************* 70-install-extras *********************"
 
 curl -sfL https://direnv.net/install.sh | bash
 
@@ -11,3 +11,5 @@ aws s3 sync s3://dotfiles-linux/ /home/ec2-user/.dotfiles/
 chown -R ec2-user:ec2-user /home/ec2-user/.dotfiles
 ln -s /home/ec2-user/.dotfiles /root/.dotfiles
 git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" reset --hard
+
+crontab /root/crontab.src

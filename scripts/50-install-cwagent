@@ -3,7 +3,7 @@
 set -e -o pipefail      # exit if there are any errors
 export PATH=/usr/local/bin:$PATH
 
-echo "********************* 05-install-cwagent *********************"
+echo "********************* 50-install-cwagent *********************"
 
 # This is a workaround for a bug in the CloudWatch Agent, which needs the ~/.aws/config to be present
 # (even if empty) in order to install the agent

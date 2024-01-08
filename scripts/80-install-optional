@@ -3,8 +3,12 @@
 set -e -o pipefail      # exit if there are any errors
 export PATH=/usr/local/bin:$PATH
 
-echo "********************* 08-install-optional *********************"
+echo "********************* 80-install-optional *********************"
 
 #curl -sfL https://direnv.net/install.sh | bash
 
 git --git-dir="$HOME/.dotfiles/.git" --work-tree="$HOME" reset --hard
+
+echo "****************************************************************"
+echo "***************************** DONE *****************************"
+echo "****************************************************************"

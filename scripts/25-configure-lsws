@@ -3,7 +3,7 @@
 set -e -o pipefail      # exit if there are any errors
 export PATH=/usr/local/bin:$PATH
 
-echo "********************* 06-install-lsws *********************"
+echo "********************* 25-configure-lsws *********************"
 
 
 rm -rf /usr/local/lsws/conf
@@ -15,6 +15,6 @@ ln -s /var/www/iskconnews.org /usr/local/lsws/prod.iskconnews.org
 ln -s /var/www/iskconnews.org /usr/local/lsws/origin.iskconnews.org
 ln -s /var/www/phpMyAdmin /usr/local/lsws/pma.iskconnews.org
 
-systemcctl enable lsws
+systemctl enable lsws
 systemctl daemon-reload
-systemctl start lsws
+#systemctl restart lsws

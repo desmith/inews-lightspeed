@@ -23,14 +23,23 @@ variable "aws_region" {
     default = "us-east-1"
 }
 
+variable "ami_name" {
+    type    = string
+    default = "packer-ami"
+}
+
+variable "app_name" {
+    type    = string
+}
+
+variable "component" {
+    type    = string
+    default = "webserver"
+}
+
 variable "env" {
     type    = string
     default = "dev"
-}
-
-variable "name" {
-    type    = string
-    default = "packer-ami"
 }
 
 variable "iam_instance_profile" {
@@ -71,7 +80,7 @@ variable "vpc_id" {
 # could not parse template for following block: "template: hcl2_upgrade:2: bad character U+0060 '`'"
 
 source "amazon-ebs" "packer-ebs" {
-    ami_name             = "${var.name}-{{isotime \"20060102030405\"}}"
+    ami_name             = "${var.ami_name}-{{isotime \"20060102030405\"}}"
     iam_instance_profile = var.iam_instance_profile
     instance_type        = var.instance_type
     launch_block_device_mappings {
@@ -83,8 +92,8 @@ source "amazon-ebs" "packer-ebs" {
     }
     region   = var.aws_region
     run_tags = {
-        Name = "packer-${var.name}"
-        app  = "inews"
+        Name = "packer-${var.ami_name}"
+        app  = var.app_name
         env  = var.env
     }
 
@@ -110,8 +119,8 @@ source "amazon-ebs" "packer-ebs" {
 
     tags = {
         CreationDate = "{{isotime \"20060102 15:04:05 MST\"}}"
-        Name         = var.name
-        app          = "inews"
+        Name         = "${var.app_name}-${var.component}"
+        app          = var.app_name
         env          = var.env
         ec2-cleanup  = "False"
         created_by   = "packer"

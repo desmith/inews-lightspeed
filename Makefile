@@ -1,6 +1,8 @@
 AMI_NAME := "inews-infra-litespeed"
 AWS_DEFAULT_REGION ?= us-east-1
-ENV ?= dev
+APP_NAME ?= inews
+COMPONENT ?= litespeed
+ENV ?= prod
 
 PACKER_TEMPLATE ?= packer.json.pkr.hcl
 
@@ -21,12 +23,14 @@ init:
 	packer init $(PACKER_TEMPLATE)
 
 clean:
-	rm -Rf tmp packer_cache packer-* $(PACKER_LOG_PATH)
+	rm -rf tmp packer_cache packer-* $(PACKER_LOG_PATH) ami.txt manifest.json
 
 validate:
 	packer validate -var aws_region=$(AWS_DEFAULT_REGION) \
+		-var app_name=$(APP_NAME) \
+		-var component=$(COMPONENT) \
 		-var env=$(ENV) \
-		-var name=$(AMI_NAME) \
+		-var ami_name=$(AMI_NAME) \
 		-var source_ami=$(AMI_ID) \
 		-var subnet_id=$(SUBNET_ID) \
 		-var vpc_id=$(VPC_ID) \
@@ -37,8 +41,10 @@ build: clean init validate
 	packer --version
 
 	packer build -var aws_region=$(AWS_DEFAULT_REGION) \
+		-var app_name=$(APP_NAME) \
+		-var component=$(COMPONENT) \
 		-var env=$(ENV) \
-		-var name=$(AMI_NAME) \
+		-var ami_name=$(AMI_NAME) \
 		-var source_ami=$(AMI_ID) \
 		-var subnet_id=$(SUBNET_ID) \
 		-var vpc_id=$(VPC_ID) \

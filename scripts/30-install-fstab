@@ -4,7 +4,7 @@ set -e -o pipefail      # exit if there are any errors
 export PATH=/usr/local/bin:$PATH
 
 
-echo "********************* 03-install-fstab *********************"
+echo "********************* 30-install-fstab *********************"
 
 mkdir -p /mnt/efs
 rm -rf /var/www
