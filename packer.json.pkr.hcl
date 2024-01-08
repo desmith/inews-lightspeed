@@ -177,12 +177,16 @@ build {
 
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/06-install-extras"
+        script          = "./scripts/06-install-lsws"
     }
 
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/06-install-extras"
+        script          = "./scripts/07-install-extras"
+    }
+
+    provisioner "shell" {
+        script          = "./scripts/08-install-optional"
     }
 
 
