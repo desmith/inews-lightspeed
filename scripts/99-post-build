@@ -3,7 +3,7 @@
 SSM_KEY='/inews/infra/litespeed/ami_id'
 OLD_AMI_ID=$(aws ssm get-parameter --name "${SSM_KEY}" --query "Parameter.Value" --output text)
 
-aws ec2 delete-tags --resources "${OLD_AMI_ID}" --tags Key=ec2-cleanup
+aws ec2 delete-tags --resources "${OLD_AMI_ID}" --tags Key=ec2-cleanup,Key=versions
 
 NEW_AMI_ID=$(cat ami.txt)
 
@@ -13,4 +13,4 @@ aws ssm put-parameter \
         --type String \
         --overwrite
 
-aws ec2 create-tags --resources "${NEW_AMI_ID}" --tags Key=ec2-cleanup,Value=False
+aws ec2 create-tags --resources "${NEW_AMI_ID}" --tags Key=ec2-cleanup,Value=False,Key=versions,Value=Latest

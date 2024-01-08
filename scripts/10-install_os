@@ -18,6 +18,7 @@ dnf install -y \
     git \
     htop \
     httpd-tools \
+    neovim \
     nfs-utils \
     mlocate \
     python3-pip \
@@ -34,3 +35,6 @@ chmod 0711 /root/bin/perflog /root/bin/monitor  # rwx--x--x
 mv /tmp/crontab.src /root
 chmod 0600 /root/crontab.src  # rw-------
 crontab /root/crontab.src
+
+wget -O - https://repo.litespeed.sh | sudo bash
+dnf install -y openlitespeed

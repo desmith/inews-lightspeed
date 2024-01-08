@@ -4,8 +4,7 @@ set -e -o pipefail      # exit if there are any errors
 export PATH=/usr/local/bin:$PATH
 
 echo "********************* 06-install-lsws *********************"
-wget -O - https://repo.litespeed.sh | sudo bash
-dnf install -y openlitespeed
+
 
 rm -rf /usr/local/lsws/conf
 ln -s /mnt/efs/lsws/conf /usr/local/lsws/conf

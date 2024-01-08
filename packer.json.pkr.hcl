@@ -40,7 +40,7 @@ variable "iam_instance_profile" {
 
 variable "instance_type" {
     type    = string
-    default = "t3.small"
+    default = "t3.2xlarge"
 }
 
 variable "security_group_ids" {
@@ -140,17 +140,22 @@ build {
 
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/01-install_os"
+        script          = "./scripts/10-install_os"
     }
 
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/02-install-php"
+        script          = "./scripts/20-install-php"
     }
 
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/03-install-fstab"
+        script          = "./scripts/25-configure-lsws"
+    }
+
+    provisioner "shell" {
+        execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
+        script          = "./scripts/30-install-fstab"
     }
 
     provisioner "file" {
@@ -163,7 +168,7 @@ build {
     }
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/04-install-awscli"
+        script          = "./scripts/40-install-awscli"
     }
 
     provisioner "file" {
@@ -172,21 +177,16 @@ build {
     }
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/05-install-cwagent"
+        script          = "./scripts/50-install-cwagent"
     }
 
     provisioner "shell" {
         execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/06-install-lsws"
+        script          = "./scripts/70-install-extras"
     }
 
     provisioner "shell" {
-        execute_command = "{{ .Vars }} sudo -E -S bash '{{ .Path }}'"
-        script          = "./scripts/07-install-extras"
-    }
-
-    provisioner "shell" {
-        script          = "./scripts/08-install-optional"
+        script          = "./scripts/80-install-optional"
     }
 
 
@@ -217,6 +217,6 @@ build {
     }
 
     post-processor "shell-local" {
-        script = "./scripts/post-build"
+        script = "./scripts/99-post-build"
     }
 }
